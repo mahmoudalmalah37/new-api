@@ -98,6 +98,7 @@ class PostController extends Controller
         return response()->json(['message' => 'Post deleted']);
     }
 
+
     /**
      * search the specified resource from storage.
      *

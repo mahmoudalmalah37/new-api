@@ -24,12 +24,15 @@ class AuthControlIIIer extends Controller
 
         $token = $user->createToken('myapptoken')->plainTextToken;
 
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response($response, 201);
+        if ($token) {
+            $response = [
+                'user' => $user,
+                'token' => $token
+            ];
+            return response($response, 201);
+        } else {
+            return response('Something went wrong', 500);
+        }
     }
 
     public function login(Request $request) {
