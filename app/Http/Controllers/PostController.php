@@ -34,7 +34,7 @@ class PostController extends Controller
     {
         $post =  Post::create($request->all());
         try {
-            return response()->json($post, 'done');
+            return response()->json($post, 201);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
