@@ -27,10 +27,10 @@ Route::post('/login', [AuthControlIIIer::class, 'login']);
 Route::get('/posts', [postController::class, 'index']);
 Route::get('/posts/{id}', [postController::class, 'show']);
 Route::get('/posts/search/{name}', [postController::class, 'search']);
+Route::post('/register', [AuthControlIIIer::class, 'register']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/register', [AuthControlIIIer::class, 'register']);
     Route::post('/posts', [postController::class, 'store']);
     Route::put('/posts/{id}', [postController::class, 'update']);
     Route::delete('/posts/{id}', [postController::class, 'destroy']);

@@ -16,16 +16,10 @@ class PostController extends Controller
     public function index(): JsonResponse
     {
         $posts = Post::all();
-        if ($posts) {
-            return response()->json([
-                'success' => true,
-                'data' => $posts
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'No posts found'
-            ], 404);
+        try {
+            return response()->json($posts, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -39,16 +33,10 @@ class PostController extends Controller
     public function store(Request $request): JsonResponse
     {
         $post =  Post::create($request->all());
-        if ($post) {
-            return response()->json([
-                'success' => true,
-                'data' => $post
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Post not added'
-            ], 500);
+        try {
+            return response()->json($post, 'done');
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -61,10 +49,10 @@ class PostController extends Controller
     public function show(int $id): JsonResponse
     {
         $post = Post::find($id);
-        if ($post) {
-            return response()->json($post);
-        } else {
-            return response()->json(['message' => 'id not found'], 404);
+        try {
+            return response()->json($post, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -78,11 +66,11 @@ class PostController extends Controller
     public function update(Request $request,int $id): JsonResponse
     {
         $post = Post::find($id);
-        if ($post) {
+        try {
             $post->update($request->all());
-            return response()->json($post);
-        } else {
-            return response()->json(['message' => 'id not found'], 404);
+            return response()->json($post, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -109,10 +97,10 @@ class PostController extends Controller
     public function search($name): JsonResponse
     {
         $post = Post::where('name', 'like', '%' . $name . '%')->get();
-        if ($post) {
-            return response()->json($post);
-        } else {
-            return response()->json(['message' => 'name not found'], 404);
+        try {
+            return response()->json($post, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
     }
 }
